@@ -29,12 +29,12 @@ public class WAVLTree {
      * otherwise, returns null
      */
     public String search(int key) {
-        WAVLNode node = findNearestNode(key, root);
-        if (node == null || node.key != key) {
+        WAVLNode nearestNode = findNearestNode(key, root);
+        if (nearestNode == null || nearestNode.key != key) {
             return null;
         }
 
-        return node.info;
+        return nearestNode.info;
     }
 
     /**
@@ -46,6 +46,24 @@ public class WAVLTree {
      * if an item with key k already exists in the tree.
      */
     public int insert(int k, String i) {
+        if(empty()){
+            root = new WAVLNode(k,i,null);
+            min = root;
+            max = root;
+            size = 1;
+            return 0;
+        }
+
+        WAVLNode nearestNode = findNearestNode(k, root);
+        if (nearestNode.key == k) {
+            return -1;
+        }
+        if(nearestNode.isLeafNode()){
+
+        }
+
+
+        size++;
         return 42; // to be replaced by student code
     }
 
@@ -185,22 +203,6 @@ public class WAVLTree {
         return infoToArrayRecursive(node.right, array, index);
     }
 
-    private void promote(WAVLNode node) {
-        if(node == null || node.rank == -1){
-            return;
-        }
-
-        node.rank++;
-    }
-
-    private void demote(WAVLNode node) {
-        if(node == null || node.rank == -1){
-            return;
-        }
-
-        node.rank--;
-    }
-
     private void leftRotate(WAVLNode node) {
 
     }
@@ -282,6 +284,15 @@ public class WAVLTree {
         public boolean isUnaryNode(){
             return (this.left.isExternalNode() && !this.right.isExternalNode()) || (this.right.isExternalNode() && !this.left.isExternalNode());
         }
+
+        public void promote() {
+            rank++;
+        }
+
+        private void demote() {
+            rank--;
+        }
+
     }
 
 }
